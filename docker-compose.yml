@@ -1,11 +1,22 @@
 version: '3'
 services:
   web:
-    build: .
+    image: manschaft/cakershop:letest # Replace with your PHP image name and tag
+    container_name: cakeshop
+    restart: always
     ports:
-      - "80:80"
+      - "80:80" # Expose your PHP application on port 80
+    volumes:
+      - ./var/www/html # Mount your PHP application code
+
+  db:
+    image: mysql:5.7
+    container_name: cakeshop-db
+    restart: always
     environment:
-      - DB_HOST=your-rds-endpoint.amazonaws.com
-      - DB_USER=your-rds-username
-      - DB_PASS=your-rds-password
-      - DB_NAME=cakershop
+      MYSQL_ROOT_PASSWORD: admin12345
+      MYSQL_DATABASE: cakeshop
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin12345
+
+  # Add other services (e.g., Redis, caching, etc.) as needed
